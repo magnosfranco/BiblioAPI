@@ -1,0 +1,30 @@
+name: biblioapi
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      BIBLIO_DATABASE_URL: sqlite:////workspace/data/biblio.db
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - .:/workspace
+      - biblio-data:/workspace/data
+    working_dir: /workspace
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/saude')",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  biblio-data:
