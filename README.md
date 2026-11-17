@@ -36,6 +36,7 @@ A etapa após a Aula 1 deixa três evidências no histórico, nesta ordem: spec 
 | `docs/vibe-vs-spec/` | código, métricas e conclusão da passagem em vibe |
 | `app/` | API da fatia em vibe |
 | `tests/` | cenários automatizados e checagens dos artefatos |
+| `docs/planejamento/` | requisitos, cronograma, atividades e premissas |
 
 ## Conferir o ambiente dentro da imagem
 
