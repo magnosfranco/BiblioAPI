@@ -67,7 +67,7 @@ São oito, para caber no envelope do curso. `GET /saude` é operacional e não e
 | `DELETE /reservas/{reserva_id}` | vibe | Cancela e promove se for o caso. Resposta 200 com a reserva cancelada. |
 | `POST /emprestimos` | plano | Cria empréstimo. Corpo: `socio_id`, `livro_id`. |
 | `POST /emprestimos/{emprestimo_id}/devolucao` | plano | Devolve o exemplar e promove a fila. |
-| `POST /recomendacoes` | LLM | Sugere livros para um `socio_id`. Se o modelo não responder, devolve um ranking determinístico. O contrato fino entra na etapa do LLM. |
+| `POST /recomendacoes` | LLM | Sugere livros para um `socio_id`. O runtime é Ollama local. Se o modelo não responder, devolve um ranking determinístico. O contrato fino entra na etapa do LLM. O mapa dos componentes está em `docs/arquitetura.md`. |
 
 `reservas_ativas` lista reservas `pronta` (por `id`) e depois as `aguardando` (por `posicao`). Cada item tem `id`, `socio_id`, `status` e `posicao`. A fila não ganha endpoint próprio: a consulta cabe em `GET /livros`, e assim o produto continua com oito endpoints de negócio.
 
