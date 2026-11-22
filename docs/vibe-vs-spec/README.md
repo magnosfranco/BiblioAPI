@@ -15,16 +15,16 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | Duração da fatia | minutos (relógio) | ~5 min (18:35:29 → 18:40:23, código+testes+métricas; PR/push após autorização) | _a preencher_ |
 | Sessões de agente | contagem | 1 | _a preencher_ |
 | Turns / mensagens relevantes | contagem aproximada | ~3 (1 prompt humano + 2 ciclos agente) | _a preencher_ |
-| Commits na branch/PR | `git rev-list --count` | TBD (após commits autorizados) | _a preencher_ |
-| Arquivos tocados | diffstat da PR | TBD | _a preencher_ |
-| Linhas + / − | diffstat da PR | TBD | _a preencher_ |
+| Commits na branch/PR | `git rev-list --count` | 3 | _a preencher_ |
+| Arquivos tocados | diffstat da PR | 16 | _a preencher_ |
+| Linhas + / − | diffstat da PR | +816 / −22 | _a preencher_ |
 | Testes adicionados | contagem / nomes (Spec+Plano: BDD emprestimos + pirâmide do plano 001) | 15 pytest HTTP: `test_saude`, `test_socios` (3), `test_livros` (3), `test_reservas` (8); + ajuste `test_artefatos` (app presente) | _a preencher_ |
-| Evidência BDD no CI | link do run / relatório | TBD (features = contrato; execução via pytest HTTP nesta fatia) | _a preencher_ (obrigatório no 001) |
+| Evidência BDD no CI | link do run / relatório | features = contrato; execução via pytest HTTP; CI do PR #6 | _a preencher_ (obrigatório no 001) |
 | Retrabalho | ciclos fix→reteste ou reverts | 1 (Docker: `ModuleNotFoundError: app` → `pythonpath=.` + `PYTHONPATH=/app`) | _a preencher_ |
 | Desvios do SPEC | lista objetiva | (1) DDL inclui tabela `emprestimos` só para RN10 — sem endpoints de empréstimo; (2) `DELETE /reservas/{id}` responde **204** (SPEC permite 200 ou 204) | _a preencher_ |
 | Planos usados? | sim/não + path | **não** | `docs/plans/001-…` |
-| PR | número + link | TBD | _a preencher_ |
-| SHA merge | short hash | TBD | _a preencher_ |
+| PR | número + link | [#6](https://github.com/magnosfranco/BiblioAPI/pull/6) | _a preencher_ |
+| SHA merge | short hash | TBD (após merge) | _a preencher_ |
 
 ## Notas qualitativas
 
