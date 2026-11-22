@@ -45,6 +45,7 @@
 - **Nunca** commit/push direto na `main` — **sempre** branch + Pull Request.  
 - Merges na `main` com **merge commit** (`--no-ff`).  
 - Commits assistidos: `Co-Authored-By: Cursor Agent <noreply@cursor.com>`.  
+- **RMx no assunto** (GIT-D1 · Magno · 2026-11-22): ex. `feat(RM3): …`, `docs(RM11,RM3): …`.  
 - Integrante autorizado a mergear: Magno da Silva Franco.  
 - Não commitir a pasta `INTERNO/`.
 
