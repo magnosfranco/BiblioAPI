@@ -33,7 +33,7 @@ Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 | Duração da fatia | minutos (relógio) | **~5 min** (18:35:29 → 18:40:23 — código+testes+rascunho; commits/PR após autorização) | **~14–16 min** agent (revisão 3 + impl 5 + doc 6 + commit/PR/CI ~1–2); CI ~33 s |
 | Sessões de agente | contagem | 1 | 1 (mesma conversa ADLC pós-vibe; branch `feat/plano-001-emprestimos`) |
 | Turns / mensagens relevantes | contagem aproximada | ~3 na implementação (1 prompt + 2 ciclos agente); +1 turn de autorização commit/PR | revisão → “pode fazer” → impl → doc tempos; **+autorização commit/PR pendente** |
-| Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | 2 (`origin/main..` da PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) após métricas) |
+| Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | 3 (`origin/main..` da PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10)) |
 | Arquivos tocados | diffstat da PR | 16 | 13 |
 | Linhas + / − | diffstat da PR | +816 / −22 | +904 / −33 (feat `aaec566`) + docs métricas |
 | Testes adicionados | contagem / nomes (Spec+Plano: BDD emprestimos + pirâmide do plano 001) | 15 pytest HTTP: `test_saude` (1), `test_socios` (3), `test_livros` (3), `test_reservas` (8); + ajuste `test_artefatos` (app presente) | 34: service (11) + API (7) + BDD (13 `emprestimos.feature`) + extra RN07/concorrência/OpenAPI (3) |
