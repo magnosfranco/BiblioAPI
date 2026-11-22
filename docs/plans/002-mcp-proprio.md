@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| Issue | A criar / #3 |
+| Issue | [#12](https://github.com/magnosfranco/BiblioAPI/issues/12) |
 | Branch sugerida | `feat/plano-002-mcp-proprio` |
 | SPEC / ADR | `SPEC.md` · ADR 0003 |
 
@@ -41,6 +41,6 @@ Servidor MCP próprio (stdio) com **3 tools** que apenas delegam a `app.service`
 
 ## 4. Critérios de aceite
 
-- [ ] ≥2 tools (alvo 3) sobre a camada de serviço  
-- [ ] Testes verdes sem abrir SQLite no processo MCP além do service  
-- [ ] Evidência mínima em `docs/evidencias/`  
+- [x] ≥2 tools (alvo 3) sobre a camada de serviço — `listar_livros`, `emprestar`, `devolver`  
+- [x] Testes verdes sem abrir SQLite no processo MCP além do service — `tests/test_mcp_proprio.py`  
+- [x] Evidência mínima em `docs/evidencias/` — `docs/evidencias/mcp-proprio.md`  

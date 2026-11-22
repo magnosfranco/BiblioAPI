@@ -52,6 +52,13 @@ def test_app_present_pos_c1() -> None:
         assert (app_dir / nome).is_file(), f"faltando app/{nome}"
 
 
+def test_mcp_server_present_pos_plano_002() -> None:
+    """Plano 002: mcp_server/ com tools sobre service."""
+    mcp_dir = REPO_ROOT / "mcp_server"
+    assert mcp_dir.is_dir()
+    assert (mcp_dir / "server.py").is_file()
+
+
 def test_agents_md_is_v2() -> None:
     text = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
     assert "v2" in text.lower() or "v2" in text
