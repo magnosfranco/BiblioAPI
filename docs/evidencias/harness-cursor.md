@@ -25,7 +25,7 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 | Subagente revisão | `.cursor/agents/spec-reviewer.md` | RM8 |
 | Subagente docs | `.cursor/agents/doc-architect.md` | RM1/11/12 |
 | Skills (a partir E6) | `.agents/skills/auditar-biblioapi/SKILL.md` | RM5 |
-| MCP (a partir Plano 003) | `.cursor/mcp.json` | RM4 |
+| MCP próprio + filesystem (Planos 002/003) | `.cursor/mcp.json` (`biblioapi-service` + `biblio-filesystem`) | RM4 |
 | CI v1 | `.github/workflows/ci.yml` (ruff, pytest+artefatos, pip-audit, gitleaks) | RM7 |
 | SPEC / BDD / ADRs | `SPEC.md`, `features/`, `docs/adr/` | RM1 |
 | AGENTS v2 | `AGENTS.md` (2º commit evolutivo) | RM2 |
@@ -47,7 +47,7 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 
 - [ ] Agents em `.cursor/agents/`
 - [ ] Skill `auditar-biblioapi` na Etapa 6
-- [ ] Aprovar MCP na 1ª conexão (sem segredos no JSON)
+- [ ] Aprovar MCP na 1ª conexão (sem segredos no JSON) — ver `docs/evidencias/mcp-filesystem.md`
 
 ## 5. Evolução
 
