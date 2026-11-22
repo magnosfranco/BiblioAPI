@@ -81,7 +81,7 @@ Máximo **1 reserva ativa** (`pronta` ou `aguardando`) por `(socio_id, livro_id)
 | `id` | INTEGER PK | autoincrement |
 | `socio_id` | INTEGER FK | not null |
 | `livro_id` | INTEGER FK | not null |
-| `reserva_id` | INTEGER FK NULL | quando consome reserva `pronta` |
+| `reserva_id` | INTEGER FK NULL | preenchido se consumiu reserva `pronta`; `NULL` se empréstimo direto (sem reserva) |
 | `status` | TEXT | `aberto` \| `devolvido` |
 | `emprestado_em` | TEXT ISO-8601 | default now |
 | `devolvido_em` | TEXT ISO-8601 NULL | na devolução |
@@ -102,8 +102,8 @@ Base: `http://localhost:8000` · OpenAPI: `/docs`, `/openapi.json`.
 | `GET` | `/livros` | Vibe | `200` lista com `exemplares_disponiveis` | — |
 | `POST` | `/reservas` | Vibe | `201` | `404`; `409` reserva ativa duplicada |
 | `DELETE` | `/reservas/{reserva_id}` | Vibe | `200` ou `204` | `404`; efeitos de fila |
-| `POST` | `/emprestimos` | Spec | `201` | `404`; `409` (aberto / fura fila) |
-| `POST` | `/emprestimos/{id}/devolucao` | Spec | `200` | `404`; `409` já devolvido |
+| `POST` | `/emprestimos` | Spec | `201` corpo do empréstimo | `404` sócio/livro; `409` (aberto, aguardando, sem disponibilidade) |
+| `POST` | `/emprestimos/{id}/devolucao` | Spec | `200` corpo do empréstimo | `404` empréstimo; `409` já devolvido |
 | `POST` | `/recomendacoes` | LLM | `200` + `origem` | `404`; timeout → fallback |
 
 ### 4.2 Payloads (resumo)
@@ -122,6 +122,20 @@ Base: `http://localhost:8000` · OpenAPI: `/docs`, `/openapi.json`.
 ```json
 { "socio_id": 1, "livro_id": 1 }
 ```
+
+**Resposta `201`/`200` de empréstimo (mínimo)**
+```json
+{
+  "id": 1,
+  "socio_id": 1,
+  "livro_id": 1,
+  "reserva_id": 10,
+  "status": "aberto",
+  "emprestado_em": "2026-11-22T12:00:00+00:00",
+  "devolvido_em": null
+}
+```
+Na devolução: `status` = `"devolvido"` e `devolvido_em` preenchido. `reserva_id` pode ser `null` no empréstimo direto.
 
 **POST `/recomendacoes`**
 ```json
@@ -161,8 +175,8 @@ Resposta de recomendações (exemplo):
 | **RN08** | Máx. 1 reserva ativa (`pronta`\|`aguardando`) por `(socio_id, livro_id)`. |
 | **RN09** | Sócio/livro inexistente → `404`. |
 | **RN10** | `exemplares_disponiveis = exemplares − #pronta − #emprestimos_abertos`. |
-| **RN11** | Empréstimo: consome reserva `pronta` do próprio sócio; `aguardando` do próprio sócio bloqueia (`409`); máx. 1 aberto por par. |
-| **RN12** | Devolução → `devolvido` + promoção síncrona (RN07). |
+| **RN11** | Empréstimo (`POST /emprestimos`), em ordem: (1) sócio/livro inexistente → `404`; (2) já existe empréstimo `aberto` do par → `409`; (3) se o sócio tem reserva `aguardando` do livro → `409` (não fura fila); (4) se tem reserva `pronta` do próprio sócio → consome (`atendida`), `reserva_id` preenchido, cria `aberto` **mesmo se** `exemplares_disponiveis == 0` (a `pronta` já reserva o exemplar); (5) se **não** tem reserva ativa e `exemplares_disponiveis > 0` → empréstimo **direto** (`reserva_id = null`); (6) caso contrário → `409`. Máx. 1 `aberto` por `(socio_id, livro_id)`. |
+| **RN12** | Devolução → `devolvido` + **a mesma** promoção/compactação síncrona da RN07 (não duplicar lógica). Empréstimo inexistente → `404`; já `devolvido` → `409`. |
 | **RN13** | `/recomendacoes` usa Ollama (`format=json`, timeout curto), cruza histórico, valida IDs. |
 | **RN14** | Falha/timeout Ollama → fallback por popularidade (empréstimos desc, `livro_id` asc); `origem: "fallback_deterministico"`. |
 
