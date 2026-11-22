@@ -98,6 +98,7 @@ def criar_socio(nome: str, email: str) -> dict[str, Any]:
     email = email.strip()
     conn = _get_conn()
     try:
+        conn.execute("BEGIN IMMEDIATE")
         existente = conn.execute(
             "SELECT id FROM socios WHERE lower(trim(email)) = lower(?)",
             (email,),
@@ -117,6 +118,9 @@ def criar_socio(nome: str, email: str) -> dict[str, Any]:
     except sqlite3.IntegrityError as exc:
         conn.rollback()
         raise ConflictError("e-mail já cadastrado") from exc
+    except ConflictError:
+        conn.rollback()
+        raise
     finally:
         conn.close()
 
@@ -127,6 +131,7 @@ def criar_livro(titulo: str, autor: str, exemplares: int) -> dict[str, Any]:
         raise ValueError("exemplares deve estar entre 1 e 50")
     conn = _get_conn()
     try:
+        conn.execute("BEGIN IMMEDIATE")
         cur = conn.execute(
             "INSERT INTO livros (titulo, autor, exemplares) VALUES (?, ?, ?)",
             (titulo.strip(), autor.strip(), exemplares),
@@ -177,6 +182,7 @@ def criar_reserva(socio_id: int, livro_id: int) -> dict[str, Any]:
     """RN03/RN04/RN08/RN09."""
     conn = _get_conn()
     try:
+        conn.execute("BEGIN IMMEDIATE")
         socio = conn.execute("SELECT id FROM socios WHERE id = ?", (socio_id,)).fetchone()
         if socio is None:
             raise NotFoundError("sócio não encontrado")
@@ -211,13 +217,17 @@ def criar_reserva(socio_id: int, livro_id: int) -> dict[str, Any]:
             ).fetchone()
             posicao = int(row_max["m"]) + 1
 
-        cur = conn.execute(
-            """
-            INSERT INTO reservas (socio_id, livro_id, status, posicao)
-            VALUES (?, ?, ?, ?)
-            """,
-            (socio_id, livro_id, status, posicao),
-        )
+        try:
+            cur = conn.execute(
+                """
+                INSERT INTO reservas (socio_id, livro_id, status, posicao)
+                VALUES (?, ?, ?, ?)
+                """,
+                (socio_id, livro_id, status, posicao),
+            )
+        except sqlite3.IntegrityError as exc:
+            conn.rollback()
+            raise ConflictError("já existe reserva ativa para este sócio e livro") from exc
         conn.commit()
         row = conn.execute(
             """
@@ -227,6 +237,9 @@ def criar_reserva(socio_id: int, livro_id: int) -> dict[str, Any]:
             (cur.lastrowid,),
         ).fetchone()
         return _row_to_dict(row)
+    except (NotFoundError, ConflictError):
+        conn.rollback()
+        raise
     finally:
         conn.close()
 
@@ -235,6 +248,7 @@ def cancelar_reserva(reserva_id: int) -> None:
     """RN05/RN06/RN07 — cancelar ativa e compactar/promover."""
     conn = _get_conn()
     try:
+        conn.execute("BEGIN IMMEDIATE")
         row = conn.execute(
             "SELECT id, livro_id, status FROM reservas WHERE id = ?",
             (reserva_id,),
@@ -265,5 +279,121 @@ def cancelar_reserva(reserva_id: int) -> None:
             _compactar_aguardando(conn, livro_id)
 
         conn.commit()
+    except (NotFoundError, ConflictError):
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def _fetch_emprestimo(conn: sqlite3.Connection, emprestimo_id: int) -> dict[str, Any]:
+    row = conn.execute(
+        """
+        SELECT id, socio_id, livro_id, reserva_id, status, emprestado_em, devolvido_em
+        FROM emprestimos WHERE id = ?
+        """,
+        (emprestimo_id,),
+    ).fetchone()
+    if row is None:
+        raise NotFoundError("empréstimo não encontrado")
+    return _row_to_dict(row)
+
+
+def emprestar(socio_id: int, livro_id: int) -> dict[str, Any]:
+    """RN11 — ordem: 404 → aberto → aguardando → pronta → direto → 409."""
+    conn = _get_conn()
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        socio = conn.execute("SELECT id FROM socios WHERE id = ?", (socio_id,)).fetchone()
+        if socio is None:
+            raise NotFoundError("sócio não encontrado")
+        livro = conn.execute("SELECT id FROM livros WHERE id = ?", (livro_id,)).fetchone()
+        if livro is None:
+            raise NotFoundError("livro não encontrado")
+
+        aberto = conn.execute(
+            """
+            SELECT id FROM emprestimos
+            WHERE socio_id = ? AND livro_id = ? AND status = 'aberto'
+            """,
+            (socio_id, livro_id),
+        ).fetchone()
+        if aberto is not None:
+            raise ConflictError("já existe empréstimo aberto para este sócio e livro")
+
+        reserva = conn.execute(
+            """
+            SELECT id, status FROM reservas
+            WHERE socio_id = ? AND livro_id = ?
+              AND status IN ('pronta', 'aguardando')
+            """,
+            (socio_id, livro_id),
+        ).fetchone()
+
+        reserva_id: int | None = None
+        if reserva is not None:
+            if reserva["status"] == "aguardando":
+                raise ConflictError("sócio possui reserva aguardando; não fura a fila")
+            # RN11-(4): consome pronta mesmo se exemplares_disponiveis == 0
+            reserva_id = int(reserva["id"])
+            conn.execute(
+                "UPDATE reservas SET status = 'atendida', posicao = NULL WHERE id = ?",
+                (reserva_id,),
+            )
+        else:
+            disponiveis = exemplares_disponiveis(conn, livro_id)
+            if disponiveis <= 0:
+                raise ConflictError("sem exemplar disponível e sem reserva pronta")
+
+        try:
+            cur = conn.execute(
+                """
+                INSERT INTO emprestimos (socio_id, livro_id, reserva_id, status)
+                VALUES (?, ?, ?, 'aberto')
+                """,
+                (socio_id, livro_id, reserva_id),
+            )
+        except sqlite3.IntegrityError as exc:
+            conn.rollback()
+            raise ConflictError("já existe empréstimo aberto para este sócio e livro") from exc
+
+        conn.commit()
+        return _fetch_emprestimo(conn, int(cur.lastrowid))
+    except (NotFoundError, ConflictError):
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def devolver(emprestimo_id: int) -> dict[str, Any]:
+    """RN12 — marca devolvido e aplica a mesma promoção RN07."""
+    conn = _get_conn()
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        row = conn.execute(
+            "SELECT id, livro_id, status FROM emprestimos WHERE id = ?",
+            (emprestimo_id,),
+        ).fetchone()
+        if row is None:
+            raise NotFoundError("empréstimo não encontrado")
+        if row["status"] == "devolvido":
+            raise ConflictError("empréstimo já devolvido")
+
+        conn.execute(
+            """
+            UPDATE emprestimos
+            SET status = 'devolvido',
+                devolvido_em = strftime('%Y-%m-%dT%H:%M:%f+00:00', 'now')
+            WHERE id = ?
+            """,
+            (emprestimo_id,),
+        )
+        promover_ou_compactar(conn, int(row["livro_id"]))
+        conn.commit()
+        return _fetch_emprestimo(conn, emprestimo_id)
+    except (NotFoundError, ConflictError):
+        conn.rollback()
+        raise
     finally:
         conn.close()

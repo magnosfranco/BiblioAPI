@@ -19,7 +19,8 @@ def get_db_path() -> Path:
 def connect(db_path: Path | None = None) -> sqlite3.Connection:
     path = db_path or get_db_path()
     path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(path), check_same_thread=False)
+    # isolation_level=None → autocommit; BEGIN IMMEDIATE fica explícito no service.
+    conn = sqlite3.connect(str(path), check_same_thread=False, isolation_level=None)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
@@ -66,6 +67,10 @@ def init_schema(conn: sqlite3.Connection | None = None) -> None:
                 )
             );
 
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_reservas_ativa_unica
+                ON reservas (socio_id, livro_id)
+                WHERE status IN ('pronta', 'aguardando');
+
             CREATE TABLE IF NOT EXISTS emprestimos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 socio_id INTEGER NOT NULL REFERENCES socios(id),
@@ -75,6 +80,10 @@ def init_schema(conn: sqlite3.Connection | None = None) -> None:
                 emprestado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%f+00:00', 'now')),
                 devolvido_em TEXT
             );
+
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_emprestimos_aberto_unico
+                ON emprestimos (socio_id, livro_id)
+                WHERE status = 'aberto';
             """
         )
         conn.commit()

@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| Issue | Criar Issue GitHub antes da PR de implementação (RM11) |
+| Issue | [#9](https://github.com/magnosfranco/BiblioAPI/issues/9) |
 | Branch sugerida | `feat/plano-001-emprestimos` |
 | Fatia | Spec + Plano (RM3) |
 | SPEC | `SPEC.md` · RN07, RN09–RN12 (RN11 detalhada) |
@@ -118,11 +118,11 @@ Este plano **não** implementa a fatia vibe. Assume na `main` (após sessão vib
 
 ## 6. Critérios de aceite
 
-- [ ] Endpoints + respostas mínimas no OpenAPI (smoke §5.1)  
-- [ ] Matriz §5.3 100% verde via pytest-bdd  
-- [ ] Testes service + API + RN07 única + concorrência + RN10  
-- [ ] CI com cov≥70% e evidência de execução BDD  
-- [ ] Sem `sqlite3` fora de `db.py`/`service.py`  
+- [x] Endpoints + respostas mínimas no OpenAPI (smoke §5.1)  
+- [x] Matriz §5.3 100% verde via pytest-bdd  
+- [x] Testes service + API + RN07 única + concorrência + RN10  
+- [x] CI com cov≥70% e evidência de execução BDD *(evidência = run da Action após abrir a PR)*  
+- [x] Sem `sqlite3` fora de `db.py`/`service.py`  
 - [ ] Issue linkada; PR revisada; merge commit; métricas Spec+Plano preenchidas  
 
 ## 7. Riscos

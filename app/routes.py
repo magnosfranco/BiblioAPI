@@ -6,6 +6,8 @@ from fastapi import APIRouter, HTTPException
 
 from app import service
 from app.schemas import (
+    EmprestimoCreate,
+    EmprestimoOut,
     LivroCreate,
     LivroOut,
     ReservaCreate,
@@ -62,3 +64,25 @@ def delete_reserva(reserva_id: int) -> None:
         raise HTTPException(status_code=404, detail=exc.message) from exc
     except service.ConflictError as exc:
         raise HTTPException(status_code=409, detail=exc.message) from exc
+
+
+@router.post("/emprestimos", response_model=EmprestimoOut, status_code=201)
+def post_emprestimo(body: EmprestimoCreate) -> EmprestimoOut:
+    try:
+        data = service.emprestar(body.socio_id, body.livro_id)
+    except service.NotFoundError as exc:
+        raise HTTPException(status_code=404, detail=exc.message) from exc
+    except service.ConflictError as exc:
+        raise HTTPException(status_code=409, detail=exc.message) from exc
+    return EmprestimoOut(**data)
+
+
+@router.post("/emprestimos/{emprestimo_id}/devolucao", response_model=EmprestimoOut)
+def post_devolucao(emprestimo_id: int) -> EmprestimoOut:
+    try:
+        data = service.devolver(emprestimo_id)
+    except service.NotFoundError as exc:
+        raise HTTPException(status_code=404, detail=exc.message) from exc
+    except service.ConflictError as exc:
+        raise HTTPException(status_code=409, detail=exc.message) from exc
+    return EmprestimoOut(**data)
