@@ -7,7 +7,7 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | Fatia **Vibe** | Sócios, livros, reservas FIFO (+ `/saude`) — **sem** `docs/plans/` |
 | Fatia **Spec+Plano** | Empréstimos + devolução — plano `001` |
 | Preenchimento | Coluna Vibe após sessão vibe; coluna Spec+Plano após plano 001; conclusão ao fechar as duas |
-| Status Spec+Plano (2026-11-22) | **Commit autorizado (~19:17 UTC−3)** — contraparte pós-vibe; dívidas 1–4, 6–7 pagas na branch; PR/CI a seguir |
+| Status Spec+Plano (2026-11-22) | **PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) aberta · CI verde** — aguarda merge Magno; depois SHA + conclusão RM3 |
 
 ## Registro de tempos (relógio · UTC−3)
 
@@ -30,7 +30,7 @@ Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 
 | Métrica | Unidade / como medir | Vibe | Spec+Plano |
 | :--- | :--- | :--- | :--- |
-| Duração da fatia | minutos (relógio) | **~5 min** (18:35:29 → 18:40:23 — código+testes+rascunho; commits/PR após autorização) | **~8 min** até agora (19:01–19:09 = revisão 3 min + impl 5 min); **+ tempo de commit/PR pendente** |
+| Duração da fatia | minutos (relógio) | **~5 min** (18:35:29 → 18:40:23 — código+testes+rascunho; commits/PR após autorização) | **~14–16 min** agent (revisão 3 + impl 5 + doc 6 + commit/PR/CI ~1–2); CI ~33 s |
 | Sessões de agente | contagem | 1 | 1 (mesma conversa ADLC pós-vibe; branch `feat/plano-001-emprestimos`) |
 | Turns / mensagens relevantes | contagem aproximada | ~3 na implementação (1 prompt + 2 ciclos agente); +1 turn de autorização commit/PR | revisão → “pode fazer” → impl → doc tempos; **+autorização commit/PR pendente** |
 | Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | 2 (`origin/main..` da PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) após métricas) |
