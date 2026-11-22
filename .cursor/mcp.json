@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "biblioapi-service": {
+      "command": "python",
+      "args": ["-m", "mcp_server"],
+      "env": {
+        "PYTHONPATH": "."
+      }
+    },
+    "biblio-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "docs",
+        "evals"
+      ]
+    }
+  }
+}

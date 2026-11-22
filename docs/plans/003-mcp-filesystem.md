@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| Issue | A criar / #4 |
+| Issue | [#14](https://github.com/magnosfranco/BiblioAPI/issues/14) |
 | Branch sugerida | `feat/plano-003-mcp-filesystem` |
 | SPEC / ADR | ADR 0003 · RM4 externo |
 
@@ -39,6 +39,6 @@ Configurar e comprovar uso de **MCP filesystem** externo restrito a `docs/` e `e
 
 ## 4. Critérios de aceite
 
-- [ ] Config versionada sem segredos  
-- [ ] Evidência de chamada  
+- [x] Config versionada sem segredos — `.cursor/mcp.json`  
+- [x] Evidência de chamada — `docs/evidencias/mcp-filesystem.md` + `tests/test_mcp_externo.py`  
 - [ ] PR com merge commit  
