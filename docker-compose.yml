@@ -6,6 +6,7 @@ services:
     environment:
       OLLAMA_BASE_URL: http://host.docker.internal:11434
       BIBLIO_DB_PATH: /data/biblio.db
+      PYTHONPATH: /app
     volumes:
       - biblio_data:/data
       - .:/app
