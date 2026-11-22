@@ -74,3 +74,18 @@ class ReservaOut(BaseModel):
 
 class SaudeOut(BaseModel):
     status: Literal["ok"]
+
+
+class EmprestimoCreate(BaseModel):
+    socio_id: int
+    livro_id: int
+
+
+class EmprestimoOut(BaseModel):
+    id: int
+    socio_id: int
+    livro_id: int
+    reserva_id: int | None
+    status: Literal["aberto", "devolvido"]
+    emprestado_em: str
+    devolvido_em: str | None
