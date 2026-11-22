@@ -1,5 +1,5 @@
-# CI v0 — BiblioAPI (RM7 base)
-# Evolui: v1 artefatos → v2 cov≥70% → v3 mcp/injection
+# CI v1 — BiblioAPI (RM7 + artefatos ADLC)
+# Evolui: v2 cov≥70% → v3 mcp/injection
 name: CI
 
 on:
@@ -33,7 +33,7 @@ jobs:
       - name: Ruff
         run: ruff check .
 
-      - name: Pytest (CI v0 — sem cov-fail-under)
+      - name: Pytest (CI v1 — guardrail + artefatos; sem cov-fail-under)
         run: pytest -q
 
       - name: Dependency audit

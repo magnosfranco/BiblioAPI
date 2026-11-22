@@ -1,7 +1,7 @@
 # Comprovação — Harness Cursor (rules, hooks, agents, skills, MCP)
 
 > Evidência de configuração e uso do Agent Harness do Cursor (RM2, RM5, RM6, RM8 e narrativa ADLC).  
-> **Versão inicial (PR0 / C0)** — 2026-11-22.
+> **Atualizado C1** — 2026-11-22 (AGENTS v2 + SPEC/ADRs/features).
 
 ---
 
@@ -26,7 +26,9 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 | Subagente docs | `.cursor/agents/doc-architect.md` | RM1/11/12 |
 | Skills (a partir E6) | `.agents/skills/auditar-biblioapi/SKILL.md` | RM5 |
 | MCP (a partir Plano 003) | `.cursor/mcp.json` | RM4 |
-| CI v0 | `.github/workflows/ci.yml` (ruff, pytest, pip-audit, gitleaks) | RM7 |
+| CI v1 | `.github/workflows/ci.yml` (ruff, pytest+artefatos, pip-audit, gitleaks) | RM7 |
+| SPEC / BDD / ADRs | `SPEC.md`, `features/`, `docs/adr/` | RM1 |
+| AGENTS v2 | `AGENTS.md` (2º commit evolutivo) | RM2 |
 
 ## 4. Checklist de configuração (humano)
 
@@ -52,7 +54,7 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 | Momento | Harness |
 | :--- | :--- |
 | **PR0 / C0** | Rules + AGENTS v1 + hooks A + 2 agents + CI v0 |
-| **C1** | AGENTS v2 + SPEC/BDD/ADRs |
+| **C1** | AGENTS v2 + SPEC/BDD/ADRs + CI v1 (test_artefatos) |
 | **PR2** | Guardrail Estágio B |
 | **E6** | Skill + eval |
 | **ADLC-REPORT** | Ferramentas/modelos por fase |
