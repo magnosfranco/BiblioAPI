@@ -221,3 +221,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- BiblioAPI ---
+*.db
+*.sqlite3
+data/
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+Thumbs.db
+# Placeholder: substitua REPLACE_WITH_NORTON_ROOT.crt pela raiz real do Norton.
+# Mantemos *.crt versionáveis sob docker/certs/ para o build Docker do grupo.

@@ -1,0 +1,17 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      BIBLIO_DB_PATH: /data/biblio.db
+    volumes:
+      - biblio_data:/data
+      - .:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    working_dir: /app
+
+volumes:
+  biblio_data:
