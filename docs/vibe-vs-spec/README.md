@@ -18,7 +18,8 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | Commits na branch/PR | `git rev-list --count` | _a preencher_ | _a preencher_ |
 | Arquivos tocados | diffstat da PR | _a preencher_ | _a preencher_ |
 | Linhas + / − | diffstat da PR | _a preencher_ | _a preencher_ |
-| Testes adicionados | contagem / nomes | _a preencher_ | _a preencher_ |
+| Testes adicionados | contagem / nomes (Spec+Plano: BDD emprestimos + pirâmide do plano 001) | _a preencher_ | _a preencher_ |
+| Evidência BDD no CI | link do run / relatório | _a preencher_ | _a preencher_ (obrigatório no 001) |
 | Retrabalho | ciclos fix→reteste ou reverts | _a preencher_ | _a preencher_ |
 | Desvios do SPEC | lista objetiva | _a preencher_ | _a preencher_ |
 | Planos usados? | sim/não + path | **não** | `docs/plans/001-…` |

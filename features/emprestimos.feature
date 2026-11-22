@@ -12,6 +12,14 @@ Funcionalidade: Empréstimos e devolução
     E o empréstimo deve ficar "aberto"
     E o empréstimo deve referenciar a reserva consumida
 
+  Cenário: Empréstimo com reserva pronta mesmo sem exemplar disponível derivado
+    Dado que o sócio possui reserva "pronta" para o livro
+    E que exemplares_disponiveis do livro é 0
+    Quando criar empréstimo do sócio para o livro
+    Então a resposta deve ter status 201
+    E a reserva deve ficar "atendida"
+    E o empréstimo deve ficar "aberto"
+
   Cenário: Empréstimo bloqueado se sócio só tem reserva aguardando
     Dado que o sócio possui apenas reserva "aguardando" para o livro
     Quando criar empréstimo do sócio para o livro
@@ -40,11 +48,29 @@ Funcionalidade: Empréstimos e devolução
     Quando criar empréstimo para sócio inexistente
     Então a resposta deve ter status 404
 
+  Cenário: Livro inexistente ao emprestar
+    Dado que existe sócio "ana.silva@biblioteca.example.com"
+    Quando criar empréstimo do sócio para livro inexistente
+    Então a resposta deve ter status 404
+
+  Cenário: Após empréstimo os exemplares disponíveis diminuem
+    Dado que o sócio não possui reserva ativa para o livro
+    E que exemplares_disponiveis do livro é 1
+    Quando criar empréstimo do sócio para o livro
+    E listar os livros
+    Então exemplares_disponiveis do livro deve ser 0
+
   Cenário: Devolução marca empréstimo como devolvido e promove fila
     Dado empréstimo "aberto" e reserva "aguardando" posição 1 no mesmo livro
     Quando devolver o empréstimo
     Então o empréstimo deve ficar "devolvido"
     E a reserva da posição 1 deve ficar "pronta"
+
+  Cenário: Após devolução os exemplares disponíveis refletem a liberação
+    Dado empréstimo "aberto" sem outros consumidores do exemplar
+    Quando devolver o empréstimo
+    E listar os livros
+    Então exemplares_disponiveis do livro deve ter aumentado em 1
 
   Cenário: Devolver empréstimo já devolvido retorna conflito
     Dado empréstimo com status "devolvido"
