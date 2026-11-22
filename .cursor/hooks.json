@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "python scripts/guardrail_check.py",
+        "failClosed": true
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "python scripts/guardrail_check.py",
+        "failClosed": true
+      }
+    ]
+  }
+}
