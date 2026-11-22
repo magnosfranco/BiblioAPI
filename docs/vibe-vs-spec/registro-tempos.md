@@ -5,7 +5,7 @@
 | Fuso | America/Sao_Paulo (UTC−3) |
 | Data | 2026-11-22 |
 | Aprovador / medição | Magno da Silva Franco + agente (chat ADLC) |
-| Status Spec+Plano | **Commit autorizado · push/PR em curso** (2026-11-22 ~19:17 UTC−3) |
+| Status Spec+Plano | **PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) aberta** · commit `aaec566` · ~19:17 UTC−3 · aguarda CI + merge Magno |
 
 Este arquivo é o **log operacional de relógio** da comparação RM3. A tabela-resumo vive em [`README.md`](./README.md).
 
@@ -28,7 +28,9 @@ Este arquivo é o **log operacional de relógio** da comparação RM3. A tabela-
 | 7 | Pedido de autorização commit/PR | ~19:09 | — | Rito GIT-D1 |
 | 8 | Refino: documentar atividade como pendente + tempos | ~19:10 | ~19:16 | Este arquivo + README |
 | 9 | Magno autoriza commit | ~19:16 | — | Chat ADLC |
-| 10 | Commit Spec+Plano (este passo) | ~19:17 | — | Completar PR/CI nas linhas abaixo após push |
+| 10 | Commit Spec+Plano | ~19:17 | — | SHA `aaec566` |
+| 11 | Push + PR #10 | ~19:17 | — | https://github.com/magnosfranco/BiblioAPI/pull/10 |
+| 12 | CI v2 run (evidência BDD) | ~19:17 | ~19:18 | [run #45076907694](https://github.com/magnosfranco/BiblioAPI/actions/runs/45076907694) · success (~33 s) |
 
 ## Totais
 
@@ -37,9 +39,10 @@ Este arquivo é o **log operacional de relógio** da comparação RM3. A tabela-
 | Vibe — agent work | ~5 | Fechado |
 | Spec+Plano — revisão pós-vibe | ~3 | Fechado (doc) |
 | Spec+Plano — implementação código/testes | ~5 | Fechado local |
-| Spec+Plano — commit+PR+CI | _pendente_ | **Aguardando Magno** |
-| Spec+Plano — subtotal até agora | ~8 | Sem commit |
-| Spec+Plano — total final | _8 + commit/PR_ | Atualizar no merge |
+| Spec+Plano — doc tempos + autorização | ~6 (19:10–19:16) | Fechado |
+| Spec+Plano — commit+push+PR+CI | ~19:17–19:18 (~1–2 min + CI 33 s) | PR #10 · CI verde |
+| Spec+Plano — subtotal agent | ~14–16 min | Até CI verde (sem merge) |
+| Spec+Plano — total final | _após merge Magno_ | Preencher SHA merge |
 
 ## Atualização obrigatória ao autorizar commit
 

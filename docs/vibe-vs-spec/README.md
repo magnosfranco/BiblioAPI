@@ -20,7 +20,7 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | **Spec+Plano** — impl. plano 001 (código+BDD+CI local) | 19:04 | ~19:09 | **~5 min** | Branch `feat/plano-001-emprestimos`; Issue #9; pytest 64/64 |
 | **Spec+Plano** — doc. tempos / status pendente | ~19:10 | ~19:16 | **~6 min** | `registro-tempos.md` + README |
 | **Spec+Plano** — autorização commit Magno | ~19:16 | ~19:16 | — | Chat ADLC |
-| **Spec+Plano** — commit + push + PR + CI run | ~19:17 | _em curso_ | _a fechar com link CI_ | Completar PR/SHA/diffstat após Action |
+| **Spec+Plano** — commit + push + PR + CI run | ~19:17 | ~19:18 | **~1–2 min** (push/PR; CI ~33 s) | PR #10 · [CI #45076907694](https://github.com/magnosfranco/BiblioAPI/actions/runs/45076907694) success |
 
 **Totais parciais (só agent clock até agora):** Vibe **~5 min** · Spec+Plano (revisão+impl) **~8 min** (3+5) · commit/PR **não incluídos**.
 
@@ -33,16 +33,16 @@ Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 | Duração da fatia | minutos (relógio) | **~5 min** (18:35:29 → 18:40:23 — código+testes+rascunho; commits/PR após autorização) | **~8 min** até agora (19:01–19:09 = revisão 3 min + impl 5 min); **+ tempo de commit/PR pendente** |
 | Sessões de agente | contagem | 1 | 1 (mesma conversa ADLC pós-vibe; branch `feat/plano-001-emprestimos`) |
 | Turns / mensagens relevantes | contagem aproximada | ~3 na implementação (1 prompt + 2 ciclos agente); +1 turn de autorização commit/PR | revisão → “pode fazer” → impl → doc tempos; **+autorização commit/PR pendente** |
-| Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | _preencher após PR_ |
-| Arquivos tocados | diffstat da PR | 16 | _preencher após PR_ |
-| Linhas + / − | diffstat da PR | +816 / −22 | _preencher após PR_ |
+| Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | 2 (`origin/main..` da PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) após métricas) |
+| Arquivos tocados | diffstat da PR | 16 | 13 |
+| Linhas + / − | diffstat da PR | +816 / −22 | +904 / −33 (feat `aaec566`) + docs métricas |
 | Testes adicionados | contagem / nomes (Spec+Plano: BDD emprestimos + pirâmide do plano 001) | 15 pytest HTTP: `test_saude` (1), `test_socios` (3), `test_livros` (3), `test_reservas` (8); + ajuste `test_artefatos` (app presente) | 34: service (11) + API (7) + BDD (13 `emprestimos.feature`) + extra RN07/concorrência/OpenAPI (3) |
-| Evidência BDD no CI | link do run / relatório | [CI run #45073962932](https://github.com/magnosfranco/BiblioAPI/actions/runs/45073962932) (success · PR #6); `.feature` = contrato; comportamento via pytest HTTP no job `test` | _link do run CI v2 após abrir PR_ (pytest-bdd executável + `--cov-fail-under=70`) |
+| Evidência BDD no CI | link do run / relatório | [CI run #45073962932](https://github.com/magnosfranco/BiblioAPI/actions/runs/45073962932) (success · PR #6); `.feature` = contrato; comportamento via pytest HTTP no job `test` | [CI run #45076907694](https://github.com/magnosfranco/BiblioAPI/actions/runs/45076907694) (success · PR #10 · CI v2 cov≥70 + pytest-bdd) |
 | Retrabalho | ciclos fix→reteste ou reverts | 1 (Docker: `ModuleNotFoundError: app` → `pythonpath=.` + `PYTHONPATH=/app`) | 2 (pytest-bdd 8×pytest 9 → bump `pytest-bdd>=9.0.1`; step BDD disponiveis=1 reaproveitava livro com 2 exemplares) |
 | Desvios do SPEC | lista objetiva | (1) DDL inclui tabela `emprestimos` só para RN10 — sem endpoints de empréstimo; (2) `DELETE /reservas/{id}` responde **204** (SPEC permite 200 ou 204) | (1) resolvido — endpoints `/emprestimos` + devolução; (2) mantido 204; índices UNIQUE parciais (não exigidos literalmente no SPEC, reforço RN08/RN11) |
 | Planos usados? | sim/não + path | **não** | **sim** — `docs/plans/001-emprestimos-devolucao.md` + Issue [#9](https://github.com/magnosfranco/BiblioAPI/issues/9) |
-| PR | número + link | [#6](https://github.com/magnosfranco/BiblioAPI/pull/6) (MERGED) | _a preencher_ |
-| SHA merge | short hash | `5394d4e` | _a preencher_ |
+| PR | número + link | [#6](https://github.com/magnosfranco/BiblioAPI/pull/6) (MERGED) | [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) (aberta) |
+| SHA merge | short hash | `5394d4e` | _após merge_ |
 
 ## Notas qualitativas
 
