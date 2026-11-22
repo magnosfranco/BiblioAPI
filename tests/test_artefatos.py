@@ -1,7 +1,7 @@
-"""CI v1 — asserts de artefatos ADLC (RM1) sem exigir app/.
+"""CI v1 — asserts de artefatos ADLC (RM1) + presença de app/ pós-fatia vibe.
 
 Decisão E1-D1 (Magno da Silva Franco, 2026-11-22): no C1 os .feature são
-especificação; estes testes contam/validam artefatos, não executam a API.
+especificação; a contagem de Cenário: permanece. RM3 cria app/.
 """
 
 from __future__ import annotations
@@ -44,11 +44,12 @@ def test_bdd_features_scenario_count() -> None:
     assert total >= 16, f"Alvo do projeto ≥16 cenários; encontrados {total}"
 
 
-def test_app_still_absent_at_c1() -> None:
-    """RM1: histórico deve ter SPEC antes de app/; em C1 a pasta ainda não existe."""
-    assert not (REPO_ROOT / "app").exists(), (
-        "C1 não deve criar app/; implementação vem depois do merge da SPEC na main"
-    )
+def test_app_present_pos_c1() -> None:
+    """Pós-SPEC na main: fatia vibe/RM3 cria app/ com camada única."""
+    app_dir = REPO_ROOT / "app"
+    assert app_dir.is_dir(), "app/ deve existir após implementação da fatia vibe"
+    for nome in ("main.py", "routes.py", "service.py", "db.py", "schemas.py"):
+        assert (app_dir / nome).is_file(), f"faltando app/{nome}"
 
 
 def test_agents_md_is_v2() -> None:
