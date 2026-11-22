@@ -123,7 +123,7 @@ Este plano **não** implementa a fatia vibe. Assume na `main` (após sessão vib
 - [x] Testes service + API + RN07 única + concorrência + RN10  
 - [x] CI com cov≥70% e evidência de execução BDD *(evidência = run da Action após abrir a PR)*  
 - [x] Sem `sqlite3` fora de `db.py`/`service.py`  
-- [ ] Issue linkada; PR revisada; merge commit; métricas Spec+Plano preenchidas  
+- [x] Issue linkada; PR revisada; merge commit; métricas Spec+Plano preenchidas — Issue #9 · PR #10 · SHA `709adec` · conclusão RM3 em `docs/vibe-vs-spec/`  
 
 ## 7. Riscos
 
