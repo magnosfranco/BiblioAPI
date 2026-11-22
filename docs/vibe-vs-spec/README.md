@@ -29,7 +29,8 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 ## Notas qualitativas
 
 ### Vibe
-- Prompt inicial / como a sessão foi aberta: confirmado — [`prompt-sessao-vibe.md`](./prompt-sessao-vibe.md) (texto canônico · 2026-11-22); sessão aberta com o prompt VIBE RM3 sem `docs/plans/`  
+- Prompt inicial / como a sessão foi aberta: confirmado — [`prompt-sessao-vibe.md`](./prompt-sessao-vibe.md) (texto canônico · 2026-11-22); sessão aberta com o prompt VIBE RM3 sem `docs/plans/`
+- Prompt de fechamento das métricas: [`prompt-metricas-coluna-vibe.md`](./prompt-metricas-coluna-vibe.md) (PR #7)  
 - O que o agente fez bem: seguiu SPEC/features do escopo; arquitetura `routes → service → SQLite`; FIFO (pronta/aguardando, compactar/promover); testes locais + Docker verdes; branch `feat/vibe-reservas` + PR #6 com CI success  
 - Falhas / correções humanas: nenhuma correção humana na implementação; 1 retrabalho técnico pelo agente (import `app` no Docker); Magno só autorizou commits/PR  
 
