@@ -7,7 +7,7 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | Fatia **Vibe** | Sócios, livros, reservas FIFO (+ `/saude`) — **sem** `docs/plans/` |
 | Fatia **Spec+Plano** | Empréstimos + devolução — plano `001` |
 | Preenchimento | Coluna Vibe após sessão vibe; coluna Spec+Plano após plano 001; conclusão ao fechar as duas |
-| Status Spec+Plano (2026-11-22) | **PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) aberta · CI verde** — aguarda merge Magno; depois SHA + conclusão RM3 |
+| Status RM3 (2026-11-22) | **Fechado** — vibe PR #6 (`5394d4e`) · Spec+Plano PR #10 (`709adec`) · conclusão abaixo |
 
 ## Registro de tempos (relógio · UTC−3)
 
@@ -22,7 +22,7 @@ Comparação metodológica exigida pelo `Projeto.pdf` (RM3).
 | **Spec+Plano** — autorização commit Magno | ~19:16 | ~19:16 | — | Chat ADLC |
 | **Spec+Plano** — commit + push + PR + CI run | ~19:17 | ~19:18 | **~1–2 min** (push/PR; CI ~33 s) | PR #10 · [CI #45076907694](https://github.com/magnosfranco/BiblioAPI/actions/runs/45076907694) success |
 
-**Totais parciais (só agent clock até agora):** Vibe **~5 min** · Spec+Plano (revisão+impl) **~8 min** (3+5) · commit/PR **não incluídos**.
+**Totais agent clock (fechados):** Vibe **~5 min** · Spec+Plano **~14–16 min** (revisão 3 + impl 5 + doc 6 + commit/PR/CI ~1–2) · CI Spec+Plano ~33 s · merge Magno `709adec` (~19:22 UTC−3 · GitHub `2026-11-22T22:22:28Z`).
 
 Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 
@@ -32,7 +32,7 @@ Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 | :--- | :--- | :--- | :--- |
 | Duração da fatia | minutos (relógio) | **~5 min** (18:35:29 → 18:40:23 — código+testes+rascunho; commits/PR após autorização) | **~14–16 min** agent (revisão 3 + impl 5 + doc 6 + commit/PR/CI ~1–2); CI ~33 s |
 | Sessões de agente | contagem | 1 | 1 (mesma conversa ADLC pós-vibe; branch `feat/plano-001-emprestimos`) |
-| Turns / mensagens relevantes | contagem aproximada | ~3 na implementação (1 prompt + 2 ciclos agente); +1 turn de autorização commit/PR | revisão → “pode fazer” → impl → doc tempos; **+autorização commit/PR pendente** |
+| Turns / mensagens relevantes | contagem aproximada | ~3 na implementação (1 prompt + 2 ciclos agente); +1 turn de autorização commit/PR | revisão → “pode fazer” → impl → doc tempos → commit/PR → merge Magno |
 | Commits na branch/PR | `git rev-list --count` | 3 (`origin/main..` da PR #6) | ver `origin/main..` da PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) (feat `aaec566` + docs métricas/tempos) |
 | Arquivos tocados | diffstat da PR | 16 | 13 |
 | Linhas + / − | diffstat da PR | +816 / −22 | +904 / −33 (feat `aaec566`) + docs métricas |
@@ -41,8 +41,8 @@ Detalhamento espelhado: [`registro-tempos.md`](./registro-tempos.md).
 | Retrabalho | ciclos fix→reteste ou reverts | 1 (Docker: `ModuleNotFoundError: app` → `pythonpath=.` + `PYTHONPATH=/app`) | 2 (pytest-bdd 8×pytest 9 → bump `pytest-bdd>=9.0.1`; step BDD disponiveis=1 reaproveitava livro com 2 exemplares) |
 | Desvios do SPEC | lista objetiva | (1) DDL inclui tabela `emprestimos` só para RN10 — sem endpoints de empréstimo; (2) `DELETE /reservas/{id}` responde **204** (SPEC permite 200 ou 204) | (1) resolvido — endpoints `/emprestimos` + devolução; (2) mantido 204; índices UNIQUE parciais (não exigidos literalmente no SPEC, reforço RN08/RN11) |
 | Planos usados? | sim/não + path | **não** | **sim** — `docs/plans/001-emprestimos-devolucao.md` + Issue [#9](https://github.com/magnosfranco/BiblioAPI/issues/9) |
-| PR | número + link | [#6](https://github.com/magnosfranco/BiblioAPI/pull/6) (MERGED) | [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) (aberta) |
-| SHA merge | short hash | `5394d4e` | _após merge_ |
+| PR | número + link | [#6](https://github.com/magnosfranco/BiblioAPI/pull/6) (MERGED) | [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) (MERGED) |
+| SHA merge | short hash | `5394d4e` | `709adec` |
 
 ## Notas qualitativas
 
@@ -86,16 +86,32 @@ Comparação do código mergeado (`5394d4e`) com `docs/plans/001` e SPEC, **ante
 
 ### Spec+Plano
 - Papel na narrativa RM3: **implementação que ficava pendente após o vibe coding** (empréstimos + pagar dívidas estruturais da vibe); ver [`registro-tempos.md`](./registro-tempos.md)  
-- Status (2026-11-22 ~19:17 UTC−3): código+testes locais OK · **commit autorizado** · PR/CI a seguir  
+- Status: **MERGED** — PR [#10](https://github.com/magnosfranco/BiblioAPI/pull/10) · SHA `709adec` · CI [run #45076907694](https://github.com/magnosfranco/BiblioAPI/actions/runs/45076907694)  
 - O plano 001 ajudou / atrapalhou: **ajudou** — matriz RN11/RN12 + pirâmide §5; Issue #9 (RM11)  
 - O que o agente fez bem: endpoints RN11/RN12; reuso `promover_ou_compactar`; índices + `BEGIN IMMEDIATE`; pytest-bdd 13/13; CI v2; dívida+tempos no comparativo  
-- Falhas / correções humanas: bump `pytest-bdd` 8→9.0.1; ajuste step BDD disponibilidade; Magno autoriza commits/PR  
+- Falhas / correções humanas: bump `pytest-bdd` 8→9.0.1; ajuste step BDD disponibilidade; Magno autorizou commits/PR/merge  
 
-## Conclusão (preencher só no fim das duas fatias)
+## Conclusão (RM3 fechado · 2026-11-22)
 
-- Qual método foi mais previsível? _a preencher_  
-- Qual gerou menos retrabalho? _a preencher_  
-- O que manteríamos no próximo ADLC? _a preencher_  
+Comparando as duas fatias com as métricas da tabela e o registro de tempos:
+
+- **Qual método foi mais previsível?** **Spec+Plano.** O plano 001 + matriz BDD/RN e a pirâmide §5 fixaram escopo, ordem RN11 e critérios de aceite *antes* do código; a vibe foi rápida, mas deixou dívidas estruturais (transação, índices, CI cov, BDD) explícitas só na revisão pós-fato.  
+- **Qual gerou menos retrabalho?** **Vibe** no clock puro (1 ciclo Docker vs 2 no Spec+Plano: pytest-bdd×pytest 9 + step BDD). Em qualidade estrutural, o Spec+Plano **evitou retrabalho futuro** ao pagar concorrência/CI/BDD na mesma fatia — o “custo” extra de ~10 min agent vs vibe vale como prevenção, não como falha.  
+- **O que manteríamos no próximo ADLC?**  
+  1. Métricas definidas **antes** das execuções (esqueleto RM3).  
+  2. Vibe com **escopo reduzido** + revisão pós-vibe → backlog de dívida **antes** da fatia com plano.  
+  3. Plano com **estratégia de testes fechada** (BDD obrigatório + design RN07 + concorrência).  
+  4. Rito: Issue → branch → autorização commit → PR → merge commit; RMx no assunto.  
+  5. Registro de **tempos de relógio** (`registro-tempos.md`) separado da opinião qualitativa.
+
+| Síntese | Vibe | Spec+Plano |
+| :--- | :--- | :--- |
+| Velocidade agent | Melhor (~5 min) | Mais lenta (~14–16 min) |
+| Previsibilidade / rastreio | Menor | Maior |
+| Dívida estrutural ao sair | Alta (itens 1–4, 6–7) | Baixa (maioria paga) |
+| Evidência BDD executável no CI | Contrato `.feature` + HTTP | pytest-bdd + cov≥70 |
+
+**Veredito RM3:** as duas fatias são complementares — vibe para descoberta rápida da base; Spec+Plano para fechar regra crítica (empréstimo/devolução) com previsibilidade. Não substituir uma pela outra no próximo ADLC.
 
 ## Decisão de estrutura
 
@@ -103,4 +119,5 @@ Comparação do código mergeado (`5394d4e`) com `docs/plans/001` e SPEC, **ante
 | :--- | :--- |
 | Aprovado por | Magno da Silva Franco |
 | Data | 2026-11-22 |
-| Nota | Esqueleto e métricas definidos **antes** das execuções; valores medidos nas etapas vibe e plano 001 |
+| Nota | Esqueleto e métricas definidos **antes** das execuções; valores medidos; **RM3 concluído** com merge `709adec` |
+| Fechamento | Conclusão qualitativa preenchida nesta revisão de fechamento (branch `docs/rm3-conclusao`) |
