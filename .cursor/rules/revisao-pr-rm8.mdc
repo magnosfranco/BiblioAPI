@@ -1,0 +1,16 @@
+---
+description: Em todo PR, publicar revisão do spec-reviewer e esperar a resposta humana (RM8)
+alwaysApply: true
+---
+
+# Revisão de PR (RM8)
+
+Ao abrir um PR com `gh pr create`, antes de dizer que está pronto para merge:
+
+1. Revisar o diff com o checklist de `.cursor/agents/spec-reviewer.md` (SPEC, ADR, AGENTS). Não alterar o código nessa passagem.
+2. Publicar um comentário no PR, começando por `spec-reviewer (RM8)`. Separar **bloqueantes** e **sugestões**. Sem bloqueio, fechar com `LGTM`.
+3. Exemplo: `gh pr comment <número> --body "spec-reviewer (RM8) ..."`.
+4. Parar. Magno responde cada comentário. Só então o PR pode ser mergeado por ele.
+5. Bloqueio real vira issue nova. Não reabrir PR já mergeado.
+
+PRs #10, #13 e #17 já têm esse comentário. A resposta humana deles ainda é de Magno.

@@ -67,7 +67,8 @@
 3. Na fatia vibe (sócios/livros/reservas), **não** criar `docs/plans/` antecipadamente.  
 4. Empréstimos/devolução e LLM seguem planos aprovados nas etapas seguintes.  
 5. Respeitar RN01–RN14 e cenários em `features/`.  
-6. Testes: `docker compose run --rm api pytest -q` (ou pytest local quando aplicável).
+6. Testes: `docker compose run --rm api pytest -q` (ou pytest local quando aplicável).  
+7. **RM8:** ao abrir um PR, publicar a revisão do `spec-reviewer` (`gh pr comment`, texto começando por `spec-reviewer (RM8)`) e parar até Magno responder. Regra sempre ativa: `.cursor/rules/revisao-pr-rm8.mdc`.
 
 ## Checklist rápido
 
