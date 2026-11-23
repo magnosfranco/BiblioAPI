@@ -6,6 +6,7 @@ import sqlite3
 from typing import Any
 
 from app import db
+from app.ollama_client import OllamaIndisponivel, completar_json
 
 
 class NotFoundError(Exception):
@@ -364,6 +365,141 @@ def emprestar(socio_id: int, livro_id: int) -> dict[str, Any]:
         raise
     finally:
         conn.close()
+
+
+def consultar_ollama(prompt: str) -> dict[str, Any]:
+    """Ponto único de I/O do modelo. Testes substituem esta função."""
+    return completar_json(prompt)
+
+
+def _candidatos(conn: sqlite3.Connection, socio_id: int) -> list[dict[str, Any]]:
+    """Livros disponíveis que o sócio ainda não emprestou, por popularidade."""
+    lidos = {
+        int(row["livro_id"])
+        for row in conn.execute(
+            "SELECT DISTINCT livro_id FROM emprestimos WHERE socio_id = ?",
+            (socio_id,),
+        )
+    }
+    popularidade = {
+        int(row["livro_id"]): int(row["n"])
+        for row in conn.execute(
+            "SELECT livro_id, COUNT(*) AS n FROM emprestimos GROUP BY livro_id"
+        )
+    }
+    candidatos: list[dict[str, Any]] = []
+    for livro in conn.execute("SELECT id, titulo, autor FROM livros"):
+        livro_id = int(livro["id"])
+        if livro_id in lidos or exemplares_disponiveis(conn, livro_id) <= 0:
+            continue
+        candidatos.append(
+            {
+                "id": livro_id,
+                "titulo": livro["titulo"],
+                "autor": livro["autor"],
+                "popularidade": popularidade.get(livro_id, 0),
+            }
+        )
+    candidatos.sort(key=lambda item: (-item["popularidade"], item["id"]))
+    return candidatos
+
+
+def _prompt_recomendacao(candidatos: list[dict[str, Any]], limite: int) -> str:
+    linhas = "\n".join(
+        f"- id={item['id']} | {item['titulo']} | {item['autor']}" for item in candidatos
+    )
+    return (
+        "Recomende livros apenas com ids do catálogo entre as marcas.\n"
+        f"No máximo {limite} itens.\n"
+        'Responda só JSON: {"itens":[{"livro_id":1,"motivo":"..."}]}.\n'
+        "<catalogo>\n"
+        f"{linhas}\n"
+        "</catalogo>"
+    )
+
+
+def _itens_do_modelo(
+    payload: dict[str, Any],
+    candidatos: list[dict[str, Any]],
+    limite: int,
+) -> list[dict[str, Any]]:
+    bruto = payload.get("itens")
+    if not isinstance(bruto, list):
+        raise OllamaIndisponivel("JSON sem lista itens")
+    por_id = {item["id"]: item for item in candidatos}
+    vistos: set[int] = set()
+    itens: list[dict[str, Any]] = []
+    for entrada in bruto:
+        if not isinstance(entrada, dict) or "livro_id" not in entrada:
+            continue
+        try:
+            livro_id = int(entrada["livro_id"])
+        except (TypeError, ValueError):
+            continue
+        if livro_id not in por_id or livro_id in vistos:
+            continue
+        vistos.add(livro_id)
+        motivo = entrada.get("motivo")
+        if not isinstance(motivo, str) or not motivo.strip():
+            motivo = "recomendação do modelo"
+        livro = por_id[livro_id]
+        itens.append(
+            {
+                "livro_id": livro_id,
+                "titulo": livro["titulo"],
+                "autor": livro["autor"],
+                "motivo": motivo.strip()[:200],
+            }
+        )
+        if len(itens) >= limite:
+            break
+    if not itens:
+        raise OllamaIndisponivel("nenhum livro_id válido")
+    return itens
+
+
+def _itens_fallback(candidatos: list[dict[str, Any]], limite: int) -> list[dict[str, Any]]:
+    return [
+        {
+            "livro_id": item["id"],
+            "titulo": item["titulo"],
+            "autor": item["autor"],
+            "motivo": "popularidade histórica",
+        }
+        for item in candidatos[:limite]
+    ]
+
+
+def recomendar(
+    socio_id: int,
+    limite: int = 3,
+    *,
+    cliente: Any = None,
+) -> dict[str, Any]:
+    """RN13–RN14. cliente substitui o Ollama (testes e golden set)."""
+    if limite < 1:
+        raise ConflictError("limite inválido")
+    conn = _get_conn()
+    try:
+        socio = conn.execute("SELECT id FROM socios WHERE id = ?", (socio_id,)).fetchone()
+        if socio is None:
+            raise NotFoundError("sócio não encontrado")
+        candidatos = _candidatos(conn, socio_id)
+    finally:
+        conn.close()
+
+    if not candidatos:
+        return {"socio_id": socio_id, "itens": [], "origem": "fallback_deterministico"}
+
+    consultar = cliente or consultar_ollama
+    try:
+        payload = consultar(_prompt_recomendacao(candidatos, limite))
+        itens = _itens_do_modelo(payload, candidatos, limite)
+        origem = "ollama"
+    except OllamaIndisponivel:
+        itens = _itens_fallback(candidatos, limite)
+        origem = "fallback_deterministico"
+    return {"socio_id": socio_id, "itens": itens, "origem": origem}
 
 
 def devolver(emprestimo_id: int) -> dict[str, Any]:

@@ -1,0 +1,154 @@
+{
+  "versao": 1,
+  "gates": [
+    "origem só ollama ou fallback_deterministico",
+    "nenhum livro_id fora dos candidatos",
+    "não recomendar livro que o sócio já emprestou",
+    "fallback ordena por empréstimos desc e livro_id asc",
+    "falha do modelo não depende de Ollama real"
+  ],
+  "casos": [
+    {
+      "id": "G01-ollama-escolhe",
+      "descricao": "Modelo devolve um id válido; a origem fica ollama mesmo com outro livro mais popular.",
+      "livros": [
+        {"titulo": "Dom Casmurro", "autor": "Machado de Assis", "exemplares": 2},
+        {"titulo": "A Hora da Estrela", "autor": "Clarice Lispector", "exemplares": 2}
+      ],
+      "historico": [{"livro": 0, "n": 4}],
+      "ollama": {"modo": "ok", "livros": [1], "motivos": ["voz narrativa"]},
+      "limite": 3,
+      "espera": {"origem": "ollama", "livros": [1], "motivo_0": "voz narrativa"}
+    },
+    {
+      "id": "G02-timeout-fallback",
+      "descricao": "Timeout do Ollama cai no fallback por popularidade.",
+      "livros": [
+        {"titulo": "Grande Sertão", "autor": "Guimarães Rosa", "exemplares": 2},
+        {"titulo": "Capitães da Areia", "autor": "Jorge Amado", "exemplares": 2}
+      ],
+      "historico": [{"livro": 1, "n": 3}, {"livro": 0, "n": 1}],
+      "ollama": {"modo": "falha"},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [1, 0]}
+    },
+    {
+      "id": "G03-desempate-id",
+      "descricao": "Mesma popularidade: desempate pelo menor livro_id.",
+      "livros": [
+        {"titulo": "Vidas Secas", "autor": "Graciliano Ramos", "exemplares": 1},
+        {"titulo": "São Bernardo", "autor": "Graciliano Ramos", "exemplares": 1}
+      ],
+      "historico": [],
+      "ollama": {"modo": "falha"},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [0, 1]}
+    },
+    {
+      "id": "G04-alucinacao-parcial",
+      "descricao": "Id inexistente é descartado; o id válido permanece com origem ollama.",
+      "livros": [
+        {"titulo": "Memórias Póstumas", "autor": "Machado de Assis", "exemplares": 1}
+      ],
+      "historico": [],
+      "ollama": {"modo": "bruto", "ids": [999, {"livro": 0}]},
+      "limite": 3,
+      "espera": {"origem": "ollama", "livros": [0]}
+    },
+    {
+      "id": "G05-so-alucinacao",
+      "descricao": "Se nenhum id presta, o fallback assume.",
+      "livros": [
+        {"titulo": "O Cortiço", "autor": "Aluísio Azevedo", "exemplares": 2},
+        {"titulo": "O Alienista", "autor": "Machado de Assis", "exemplares": 2}
+      ],
+      "historico": [{"livro": 0, "n": 2}],
+      "ollama": {"modo": "bruto", "ids": [999, 1000]},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [0, 1]}
+    },
+    {
+      "id": "G06-json-invalido",
+      "descricao": "Objeto sem lista itens equivale a falha do modelo.",
+      "livros": [
+        {"titulo": "Quincas Borba", "autor": "Machado de Assis", "exemplares": 1}
+      ],
+      "historico": [],
+      "ollama": {"modo": "lixo"},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [0]}
+    },
+    {
+      "id": "G07-ja-lido",
+      "descricao": "Livro que o sócio já devolveu não volta, mesmo se o modelo insistir.",
+      "livros": [
+        {"titulo": "Iracema", "autor": "José de Alencar", "exemplares": 2},
+        {"titulo": "Lucíola", "autor": "José de Alencar", "exemplares": 2}
+      ],
+      "historico": [],
+      "lidos": [0],
+      "ollama": {"modo": "ok", "livros": [0, 1], "motivos": ["já li", "próximo"]},
+      "limite": 3,
+      "espera": {"origem": "ollama", "livros": [1]}
+    },
+    {
+      "id": "G08-esgotado",
+      "descricao": "Exemplar emprestado e não devolvido sai dos candidatos.",
+      "livros": [
+        {"titulo": "Macunaíma", "autor": "Mário de Andrade", "exemplares": 1},
+        {"titulo": "Paulicéia", "autor": "Mário de Andrade", "exemplares": 1}
+      ],
+      "historico": [],
+      "esgotar": [0],
+      "ollama": {"modo": "falha"},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [1]}
+    },
+    {
+      "id": "G09-catalogo-vazio",
+      "descricao": "Sem livros, a resposta é fallback com lista vazia e sem chamar o modelo.",
+      "livros": [],
+      "historico": [],
+      "ollama": {"modo": "falha"},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [], "nao_chama_modelo": true}
+    },
+    {
+      "id": "G10-limite",
+      "descricao": "O limite corta o fallback.",
+      "livros": [
+        {"titulo": "Angústia", "autor": "Graciliano Ramos", "exemplares": 1},
+        {"titulo": "Caetés", "autor": "Graciliano Ramos", "exemplares": 1},
+        {"titulo": "Infância", "autor": "Graciliano Ramos", "exemplares": 1}
+      ],
+      "historico": [],
+      "ollama": {"modo": "falha"},
+      "limite": 1,
+      "espera": {"origem": "fallback_deterministico", "livros": [0]}
+    },
+    {
+      "id": "G11-cold-start",
+      "descricao": "Sócio sem histórico recebe o catálogo disponível quando o modelo falha.",
+      "livros": [
+        {"titulo": "Sagarana", "autor": "Guimarães Rosa", "exemplares": 1},
+        {"titulo": "Primeiras Estórias", "autor": "Guimarães Rosa", "exemplares": 1}
+      ],
+      "historico": [],
+      "ollama": {"modo": "falha"},
+      "limite": 2,
+      "espera": {"origem": "fallback_deterministico", "livros": [0, 1]}
+    },
+    {
+      "id": "G12-tudo-emprestado",
+      "descricao": "Catálogo existe, mas nada está disponível.",
+      "livros": [
+        {"titulo": "O Tempo e o Vento", "autor": "Érico Veríssimo", "exemplares": 1}
+      ],
+      "historico": [],
+      "esgotar": [0],
+      "ollama": {"modo": "ok", "livros": [0], "motivos": ["épico"]},
+      "limite": 3,
+      "espera": {"origem": "fallback_deterministico", "livros": [], "nao_chama_modelo": true}
+    }
+  ]
+}

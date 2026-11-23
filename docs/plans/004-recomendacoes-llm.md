@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| Issue | A criar / #5 |
+| Issue | [#16](https://github.com/magnosfranco/BiblioAPI/issues/16) |
 | Branch sugerida | `feat/plano-004-recomendacoes` |
 | SPEC / ADR | RN13–RN14 · ADR 0004 · RM10 |
 
@@ -41,7 +41,7 @@ Implementar `POST /recomendacoes` com Ollama local e fallback determinístico; g
 
 ## 4. Critérios de aceite
 
-- [ ] Endpoint conforme SPEC  
-- [ ] Fallback coberto por teste  
-- [ ] Golden set ≥10 + relatório de eval versionado  
-- [ ] CI verde sem Ollama no runner  
+- [x] Endpoint conforme SPEC — `POST /recomendacoes`  
+- [x] Fallback coberto por teste — `tests/test_recomendacoes_bdd.py`  
+- [x] Golden set ≥10 + relatório — `evals/golden_set_recomendacoes.json` (12) e `evals/relatorio_recomendacoes.md`  
+- [ ] CI verde sem Ollama no runner — conferir no PR  

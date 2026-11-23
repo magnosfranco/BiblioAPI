@@ -10,6 +10,8 @@ from app.schemas import (
     EmprestimoOut,
     LivroCreate,
     LivroOut,
+    RecomendacaoIn,
+    RecomendacaoOut,
     ReservaCreate,
     ReservaOut,
     SaudeOut,
@@ -86,3 +88,12 @@ def post_devolucao(emprestimo_id: int) -> EmprestimoOut:
     except service.ConflictError as exc:
         raise HTTPException(status_code=409, detail=exc.message) from exc
     return EmprestimoOut(**data)
+
+
+@router.post("/recomendacoes", response_model=RecomendacaoOut)
+def post_recomendacoes(body: RecomendacaoIn) -> RecomendacaoOut:
+    try:
+        data = service.recomendar(body.socio_id, body.limite)
+    except service.NotFoundError as exc:
+        raise HTTPException(status_code=404, detail=exc.message) from exc
+    return RecomendacaoOut(**data)
