@@ -9,7 +9,7 @@ alwaysApply: true
 - Não crie `app/` antes de `SPEC.md`, ADRs e `features/` commitados na `main` (RM1).
 - Arquitetura: `routes` / MCP → `app/service.py` → SQLite. Sem repository/DAO.
 - `sqlite3` somente em `app/db.py` e `app/service.py`.
-- Estágio A do guardrail: bloquear segredos, comandos destrutivos e e-mails não sintéticos; ainda **não** exige plano para `app/`.
+- Guardrail no Estágio B: além de segredos, destrutivos e e-mails não sintéticos, editar `app/` ou `mcp_server/` exige plano aceito, sem linha pendente.
 - E-mails de teste: `@biblioteca.example.com`.
 - Commits assistidos: trailer `Co-Authored-By: Cursor Agent <noreply@cursor.com>`.
 - Merges na `main` com `--no-ff` (nunca squash).
