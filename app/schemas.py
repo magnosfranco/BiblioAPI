@@ -89,3 +89,21 @@ class EmprestimoOut(BaseModel):
     status: Literal["aberto", "devolvido"]
     emprestado_em: str
     devolvido_em: str | None
+
+
+class RecomendacaoIn(BaseModel):
+    socio_id: int
+    limite: int = Field(default=3, ge=1, le=10)
+
+
+class RecomendacaoItem(BaseModel):
+    livro_id: int
+    titulo: str
+    autor: str
+    motivo: str
+
+
+class RecomendacaoOut(BaseModel):
+    socio_id: int
+    itens: list[RecomendacaoItem]
+    origem: Literal["ollama", "fallback_deterministico"]
