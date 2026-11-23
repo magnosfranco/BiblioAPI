@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 import pytest
 
-from app.ollama_client import OllamaIndisponivel, completar_json
+from app.ollama_client import DEFAULT_MODEL, DEFAULT_TIMEOUT_S, OllamaIndisponivel, completar_json
 
 
 class _Resposta:
@@ -22,7 +22,8 @@ class _Resposta:
 def test_completar_json_aceita_content_string(monkeypatch: pytest.MonkeyPatch) -> None:
     def falso(*_args, **kwargs):
         assert kwargs["json"]["format"] == "json"
-        assert kwargs["timeout"] == 2.0
+        assert kwargs["json"]["model"] == DEFAULT_MODEL
+        assert kwargs["timeout"] == DEFAULT_TIMEOUT_S
         return _Resposta({"message": {"content": '{"itens": []}'}})
 
     monkeypatch.setattr("app.ollama_client.httpx.post", falso)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -11,13 +12,19 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "guardrail_check.py"
 
 
-def _run(payload: dict) -> tuple[int, dict]:
+def _run(payload: dict, extra_env: dict | None = None) -> tuple[int, dict]:
+    env = os.environ.copy()
+    env["PYTHONIOENCODING"] = "utf-8"
+    if extra_env:
+        env.update(extra_env)
     proc = subprocess.run(
         [sys.executable, str(SCRIPT)],
         input=json.dumps(payload),
         text=True,
+        encoding="utf-8",
         capture_output=True,
         cwd=str(ROOT),
+        env=env,
         check=False,
     )
     body = proc.stdout.strip() or "{}"
@@ -109,7 +116,41 @@ def test_stage_a_does_not_require_plan_for_app_edit():
                 "file_path": "app/service.py",
                 "content": "def criar_socio():\n    return 1\n",
             }
-        }
+        },
+        {"GUARDRAIL_STAGE": "A"},
     )
     assert code == 0
     assert data["permission"] == "allow"
+
+
+def test_stage_b_allows_app_edit_when_plans_accepted():
+    code, data = _run(
+        {
+            "tool_input": {
+                "file_path": "app/service.py",
+                "content": "def criar_socio():\n    return 1\n",
+            }
+        },
+        {"GUARDRAIL_STAGE": "B"},
+    )
+    assert code == 0
+    assert data["permission"] == "allow"
+
+
+def test_stage_b_blocks_app_edit_when_plan_pending(tmp_path: Path):
+    (tmp_path / "plano.md").write_text(
+        "| Decisão humana | pendente |\n| pendente |\n",
+        encoding="utf-8",
+    )
+    code, data = _run(
+        {
+            "tool_input": {
+                "file_path": "app/routes.py",
+                "content": "def rota():\n    return 1\n",
+            }
+        },
+        {"GUARDRAIL_STAGE": "B", "GUARDRAIL_PLANS_DIR": str(tmp_path)},
+    )
+    assert code == 2
+    assert data["permission"] == "deny"
+    assert "Estágio B" in data["user_message"]

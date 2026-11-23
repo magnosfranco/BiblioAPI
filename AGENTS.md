@@ -1,13 +1,13 @@
-# AGENTS.md — BiblioAPI (v2 · pós-SPEC · Estágio A)
+# AGENTS.md — BiblioAPI (v3 · Estágio B)
 
-> Regras canônicas para agentes de código. Evolui ao longo do projeto (RM2: ≥ 3 commits neste arquivo).  
-> Versão atual: **v2 — Inception/Spec** (SPEC + ADRs + features na árvore; Estágio A do guardrail).
+> Regras canônicas para agentes de código. Evolui ao longo do projeto (RM2: v1 no C0, v2 no C1, v3 neste estágio).  
+> Versão atual: **v3 — Estágio B** (plano aceito antes de editar `app/` ou `mcp_server/`).
 
 ## R01 — Fonte de verdade
 
 1. Requisitos acadêmicos: enunciado do curso (RM1–RM12).  
 2. Contrato do produto: **`SPEC.md`**, **`docs/adr/`**, **`features/`**, `docs/PRD.md`.  
-3. Este `AGENTS.md` + planos em `docs/plans/` (Estágio B, ainda futuro).  
+3. Este `AGENTS.md` + planos em `docs/plans/` com `Decisão humana: aceita` e sem linha `pendente`.  
 4. Nunca inventar endpoints, entidades ou regras fora do SPEC / escopo isonômico.
 
 ## R02 — Escopo isonômico fechado
@@ -53,12 +53,12 @@
 
 - Build exige `docker/certs/*.crt` (raiz Norton pública).  
 - Variáveis: `SSL_CERT_FILE`, `REQUESTS_CA_BUNDLE`, `NODE_EXTRA_CA_CERTS`.  
-- Ollama: `OLLAMA_BASE_URL=http://host.docker.internal:11434` (ADR 0004).
+- Ollama: `OLLAMA_BASE_URL=http://host.docker.internal:11434`, modelo `llama3.1:8b`, timeout 15s (ADR 0004). No host, a URL é `http://127.0.0.1:11434`. Base de exemplo: `python scripts/popular_base.py`.
 
 ## R08 — Estágio do harness
 
-- **Estágio A (atual):** guardrail bloqueia segredos, destrutivos e e-mails não sintéticos; **não** bloqueia edição em `app/`.  
-- **Estágio B (futuro):** edições em `app/` ou `mcp_server/` exigem plano com `Decisão humana: aceita`.
+- **Estágio A:** guardrail bloqueia segredos, destrutivos e e-mails não sintéticos; não exige plano para editar `app/`. Vale só com `GUARDRAIL_STAGE=A`.  
+- **Estágio B (atual):** além do A, edições em `app/` ou `mcp_server/` exigem plano em `docs/plans/` com `Decisão humana: aceita` e sem linha `pendente`.
 
 ## R09 — Como o agente deve trabalhar
 

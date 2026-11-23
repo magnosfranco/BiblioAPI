@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Guardrail determinístico da BiblioAPI (Python puro — Windows/Linux/macOS).
 
-Estágio A: bloqueia comandos destrutivos, segredos e e-mails não sintéticos.
-Estágio B (GUARDRAIL_STAGE=B): também exige plano aprovado para editar app/ ou mcp_server/.
+Estágio A (GUARDRAIL_STAGE=A): bloqueia comandos destrutivos, segredos e e-mails não sintéticos.
+Estágio B é o padrão: também exige plano aprovado para editar app/ ou mcp_server/.
 
 Protocolo Cursor hooks: JSON em stdin; JSON em stdout com permission allow|deny.
 Exit 0 = sucesso; exit 2 = bloqueio explícito.
@@ -17,8 +17,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-STAGE = os.environ.get("GUARDRAIL_STAGE", "A").upper()
+STAGE = os.environ.get("GUARDRAIL_STAGE", "B").upper()
 
 DESTRUCTIVE_PATTERNS = [
     re.compile(r"\brm\s+-rf\b", re.I),
@@ -104,8 +107,15 @@ def _file_path(payload: dict[str, Any]) -> str | None:
     return None
 
 
+def _plans_dir() -> Path:
+    override = os.environ.get("GUARDRAIL_PLANS_DIR")
+    if override:
+        return Path(override)
+    return REPO_ROOT / "docs" / "plans"
+
+
 def _plan_approved() -> bool:
-    plans = REPO_ROOT / "docs" / "plans"
+    plans = _plans_dir()
     if not plans.is_dir():
         return False
     for plan in plans.glob("*.md"):
@@ -128,7 +138,7 @@ def _has_pending_plans_blocking(path: str | None) -> bool:
     norm = path.replace("\\", "/")
     if not (norm.startswith("app/") or norm.startswith("mcp_server/")):
         return False
-    plans = REPO_ROOT / "docs" / "plans"
+    plans = _plans_dir()
     if not plans.is_dir():
         return True
     approved = False

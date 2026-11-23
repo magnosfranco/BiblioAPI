@@ -24,11 +24,11 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 | Guardrail | `.cursor/hooks.json` → `scripts/guardrail_check.py` | RM6 |
 | Subagente revisão | `.cursor/agents/spec-reviewer.md` | RM8 |
 | Subagente docs | `.cursor/agents/doc-architect.md` | RM1/11/12 |
-| Skills (a partir E6) | `.agents/skills/auditar-biblioapi/SKILL.md` | RM5 |
+| Skill | `.agents/skills/auditar-biblioapi/SKILL.md` (description v2) | RM5 |
 | MCP próprio + filesystem (Planos 002/003) | `.cursor/mcp.json` (`biblioapi-service` + `biblio-filesystem`) | RM4 |
 | CI v1 | `.github/workflows/ci.yml` (ruff, pytest+artefatos, pip-audit, gitleaks) | RM7 |
 | SPEC / BDD / ADRs | `SPEC.md`, `features/`, `docs/adr/` | RM1 |
-| AGENTS v2 | `AGENTS.md` (2º commit evolutivo) | RM2 |
+| AGENTS v3 | `AGENTS.md` (Estágio B é o padrão do hook) | RM2, RM6 |
 
 ## 4. Checklist de configuração (humano)
 
@@ -46,7 +46,7 @@ Demonstrar que o agente não opera “só no chat”: há **regras, hooks, subag
 ### Subagentes / skills / MCP
 
 - [ ] Agents em `.cursor/agents/`
-- [ ] Skill `auditar-biblioapi` na Etapa 6
+- [x] Skill `auditar-biblioapi` — eval v1 F1 0,71 → v2 F1 1,00 (`evals/relatorio_skill_trigger.md`)
 - [ ] Aprovar MCP na 1ª conexão (sem segredos no JSON) — ver `docs/evidencias/mcp-filesystem.md`
 
 ## 5. Evolução
