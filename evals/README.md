@@ -6,6 +6,6 @@ Pasta do MCP filesystem (plano 003 / RM4) e do golden set de recomendações (pl
 | :--- | :--- |
 | `golden_set_recomendacoes.json` | Plano 004 — 12 casos |
 | `run_llm_eval.py` + `relatorio_recomendacoes.md` | Plano 004 — gates sem Ollama real |
-| Eval de skill | Etapa da skill (ainda não) |
+| `skill_trigger_cases.json` + `run_skill_eval.py` + `relatorio_skill_trigger.md` | RM5 — F1 0,71 → 1,00 |
 
 O servidor `@modelcontextprotocol/server-filesystem` em `.cursor/mcp.json` só pode acessar **`docs/`** e **`evals/`** — nunca `.env` nem `app/`.

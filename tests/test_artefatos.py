@@ -59,7 +59,8 @@ def test_mcp_server_present_pos_plano_002() -> None:
     assert (mcp_dir / "server.py").is_file()
 
 
-def test_agents_md_is_v2() -> None:
+def test_agents_md_is_v3() -> None:
     text = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    assert "v2" in text.lower() or "v2" in text
+    assert "v3" in text
+    assert "Estágio B" in text
     assert "SPEC.md" in text

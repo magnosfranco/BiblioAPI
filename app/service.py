@@ -126,6 +126,18 @@ def criar_socio(nome: str, email: str) -> dict[str, Any]:
         conn.close()
 
 
+def obter_socio_por_email(email: str) -> dict[str, Any] | None:
+    conn = _get_conn()
+    try:
+        row = conn.execute(
+            "SELECT id, nome, email, criado_em FROM socios WHERE lower(trim(email)) = lower(?)",
+            (email.strip(),),
+        ).fetchone()
+        return _row_to_dict(row) if row is not None else None
+    finally:
+        conn.close()
+
+
 def criar_livro(titulo: str, autor: str, exemplares: int) -> dict[str, Any]:
     """RN02: exemplares ∈ [1, 50] (também validado no schema)."""
     if exemplares < 1 or exemplares > 50:

@@ -8,7 +8,8 @@ from typing import Any
 
 import httpx
 
-DEFAULT_TIMEOUT_S = 2.0
+DEFAULT_MODEL = "llama3.1:8b"
+DEFAULT_TIMEOUT_S = 15.0
 
 
 class OllamaIndisponivel(Exception):
@@ -18,7 +19,7 @@ class OllamaIndisponivel(Exception):
 def completar_json(prompt: str) -> dict[str, Any]:
     """POST /api/chat com format=json e timeout curto (RN13)."""
     base = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
-    model = os.environ.get("OLLAMA_MODEL", "qwen2.5:7b")
+    model = os.environ.get("OLLAMA_MODEL", DEFAULT_MODEL)
     timeout = float(os.environ.get("OLLAMA_TIMEOUT", str(DEFAULT_TIMEOUT_S)))
     payload = {
         "model": model,

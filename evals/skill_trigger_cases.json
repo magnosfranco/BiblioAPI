@@ -1,0 +1,17 @@
+{
+  "skill": "auditar-biblioapi",
+  "v1_description": "Audita a BiblioAPI: regras de negócio, testes, Docker, CI, Git e qualquer pedido sobre o repositório.",
+  "v2_description": "Audita conformidade das regras RN01–RN14 da BiblioAPI: fila FIFO, empréstimos, reservas, recomendações e camada de serviço. Use quando o pedido for revisar regra de negócio, invariante ou endpoint da biblioteca. Não use para Docker, CI, Git, certificado, formatação ou infraestrutura.",
+  "casos": [
+    {"id": "P1", "esperado": true, "prompt": "Revise as regras de negócio da fila FIFO de reservas."},
+    {"id": "P2", "esperado": true, "prompt": "Revise a regra de negócio do empréstimo quando há reserva aguardando."},
+    {"id": "P3", "esperado": true, "prompt": "A regra de negócio do endpoint de recomendações está certa?"},
+    {"id": "P4", "esperado": true, "prompt": "Audite a regra de negócio do invariante de exemplares."},
+    {"id": "P5", "esperado": true, "prompt": "Os testes cobrem a regra de negócio de e-mail de sócio duplicado?"},
+    {"id": "N1", "esperado": false, "prompt": "Como faço o docker compose build da API?"},
+    {"id": "N2", "esperado": false, "prompt": "O CI do GitHub Actions falhou no job de teste."},
+    {"id": "N3", "esperado": false, "prompt": "Preciso atualizar o certificado Norton no Docker."},
+    {"id": "N4", "esperado": false, "prompt": "Explique o que é um git merge commit."},
+    {"id": "N5", "esperado": false, "prompt": "Formate os arquivos com o ruff e ajuste a infraestrutura do runner."}
+  ]
+}
