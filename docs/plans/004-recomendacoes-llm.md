@@ -44,4 +44,4 @@ Implementar `POST /recomendacoes` com Ollama local e fallback determinístico; g
 - [x] Endpoint conforme SPEC — `POST /recomendacoes`  
 - [x] Fallback coberto por teste — `tests/test_recomendacoes_bdd.py`  
 - [x] Golden set ≥10 + relatório — `evals/golden_set_recomendacoes.json` (12) e `evals/relatorio_recomendacoes.md`  
-- [ ] CI verde sem Ollama no runner — conferir no PR  
+- [x] CI verde sem Ollama no runner — PR #17, checks `test` e `gitleaks`  
