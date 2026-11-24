@@ -6,6 +6,8 @@
 | `002-mcp-proprio.md` | MCP próprio | Spec + Plano | Plano 001 (API estável) |
 | `003-mcp-filesystem.md` | MCP filesystem | Spec + Plano | Config Cursor |
 | `004-recomendacoes-llm.md` | Recomendações LLM | Spec + Plano | Empréstimos + catálogo |
+| `005-pendencias-desta-fase.md` | Provas desta fase | Spec + Plano | PRs #13, #15, #17 e #19 na main |
+| `006-threat-model-injection.md` | Threat model e injection | Spec + Plano | Aula 4, issue #23 |
 
 ## Decisão de ordem (Magno da Silva Franco · 2026-11-22)
 

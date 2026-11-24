@@ -19,5 +19,5 @@ O envelope isonômico exige ≥1 função com LLM e fallback determinístico. O 
 ## Consequências
 
 - CI não depende de modelo no runner (mocks / fallback).  
-- Threat model e testes de prompt injection cobrem esta superfície (RM9, etapa posterior).  
+- Threat model e testes de prompt injection cobrem esta superfície (RM9, plano 006).  
 - Implementação no plano 004 + `evals/`.
