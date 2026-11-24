@@ -40,5 +40,5 @@ Configurar e comprovar uso de **MCP filesystem** externo restrito a `docs/` e `e
 ## 4. Critérios de aceite
 
 - [x] Config versionada sem segredos — `.cursor/mcp.json`  
-- [x] Evidência de chamada — `docs/evidencias/mcp-filesystem.md` + `tests/test_mcp_externo.py`  
-- [ ] PR com merge commit  
+- [x] Evidência de chamada — `docs/evidencias/mcp-filesystem-chamada.json` + `tests/test_mcp_externo.py`  
+- [x] PR #15 com merge commit (`17b5e65`)  

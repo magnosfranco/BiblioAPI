@@ -1,0 +1,70 @@
+{
+  "servidor": "@modelcontextprotocol/server-filesystem",
+  "versao_protocolo": "2025-03-26",
+  "roots_na_linha_de_comando": [
+    "docs",
+    "evals"
+  ],
+  "initialize": {
+    "result": {
+      "protocolVersion": "2025-03-26",
+      "capabilities": {
+        "tools": {
+          "listChanged": true
+        },
+        "resources": {
+          "listChanged": true
+        }
+      },
+      "serverInfo": {
+        "name": "secure-filesystem-server",
+        "version": "2.4.0"
+      }
+    },
+    "jsonrpc": "2.0",
+    "id": 1
+  },
+  "list_allowed_directories": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Allowed directories:\nC:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\docs\nC:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\evals"
+        }
+      ],
+      "structuredContent": {
+        "content": "Allowed directories:\nC:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\docs\nC:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\evals"
+      }
+    },
+    "jsonrpc": "2.0",
+    "id": 2
+  },
+  "list_directory_docs_evidencias": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
+        }
+      ],
+      "structuredContent": {
+        "content": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
+      }
+    },
+    "jsonrpc": "2.0",
+    "id": 3
+  },
+  "list_directory_app_fora_do_root": {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Access denied - path outside allowed directories: C:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\app not in C:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\docs, C:\\Users\\magno\\Documents\\SOURCES\\BiblioAPI\\repo\\evals"
+        }
+      ],
+      "isError": true
+    },
+    "jsonrpc": "2.0",
+    "id": 4
+  }
+}
