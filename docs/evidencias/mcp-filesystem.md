@@ -40,6 +40,10 @@ Também versionado no mesmo arquivo: `biblioapi-service` (`python -m mcp_server`
 
 O `npx` no Windows não repassa o stdin, e o registry do npm neste host exige o certificado Norton (`NODE_EXTRA_CA_CERTS`). O script chama o `node` no `dist/index.js` já baixado. O CI não executa essa chamada: `tests/test_mcp_externo.py` confere o transcript versionado.
 
+## Revalidação (2026-11-24)
+
+Magno ligou `biblio-filesystem` na janela aberta em `repo/`. O Cursor criou o registro `project-0-repo-biblio-filesystem` nessa janela. A sessão de estudo, aberta na pasta pai, não recebeu as tools, e não havia processo `node.exe` no momento da checagem. A configuração foi reexecutada no mesmo dia: `list_allowed_directories` devolveu só `docs` e `evals`, e `list_directory` em `app/` voltou `Access denied`. O transcript foi atualizado.
+
 ## Como comprovar no Cursor
 
 1. Abrir a janela na pasta **`repo/`**.  

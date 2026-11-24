@@ -37,4 +37,4 @@ Registrar os 7 pilares em uma página e provar, com teste, que um título malici
 
 - [x] A página nomeia spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege e abuso de LLM.
 - [x] O teste recusa o `livro_id` inventado, não devolve campo extra do modelo e não altera o estoque.
-- [ ] PR com RM9 no assunto e comentário do spec-reviewer.
+- [x] PR com RM9 no assunto e comentário do spec-reviewer — PR #24, `1bc18b8`
