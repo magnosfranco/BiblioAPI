@@ -44,11 +44,11 @@
       "content": [
         {
           "type": "text",
-          "text": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
+          "text": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem-chamada.json\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
         }
       ],
       "structuredContent": {
-        "content": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
+        "content": "[FILE] harness-cursor.md\n[FILE] mcp-filesystem-chamada.json\n[FILE] mcp-filesystem.md\n[FILE] mcp-proprio.md\n[FILE] ollama-escolha-modelo.md\n[FILE] recomendacoes-llm.md\n[FILE] revisao-agente-rm8.md\n[FILE] skill-e-estagio-b.md"
       }
     },
     "jsonrpc": "2.0",

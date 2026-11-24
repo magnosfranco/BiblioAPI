@@ -8,6 +8,7 @@
 | `004-recomendacoes-llm.md` | Recomendações LLM | Spec + Plano | Empréstimos + catálogo |
 | `005-pendencias-desta-fase.md` | Provas desta fase | Spec + Plano | PRs #13, #15, #17 e #19 na main |
 | `006-threat-model-injection.md` | Threat model e injection | Spec + Plano | Aula 4, issue #23 |
+| `007-fechamento-sem-tag.md` | CI v3, relatório e slides | Spec + Plano | Issue #25, sem a tag |
 
 ## Decisão de ordem (Magno da Silva Franco · 2026-11-22)
 
