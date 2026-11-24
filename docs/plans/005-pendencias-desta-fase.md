@@ -39,4 +39,4 @@ Fechar as provas incompletas do que já foi feito. A quinta cadeia issue → pla
 - [x] Transcript da chamada em `docs/evidencias/mcp-filesystem-chamada.json`
 - [x] Teste lê esse transcript e confere roots e recusa
 - [x] Evidência do RM8 deixa de dizer que a resposta humana está pendente
-- [ ] PR com o assunto citando RM4, RM8 e RM11, e comentário do spec-reviewer
+- [x] PR com o assunto citando RM4, RM8 e RM11, e comentário do spec-reviewer — PR #22, `95967de`
