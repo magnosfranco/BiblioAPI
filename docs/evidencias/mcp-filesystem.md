@@ -30,13 +30,21 @@ Servidor `biblio-filesystem`:
 
 Também versionado no mesmo arquivo: `biblioapi-service` (`python -m mcp_server`) — MCP **próprio** (plano 002), para o agente usar os dois canais no Cursor.
 
-## Como comprovar (humano · Cursor)
+## Chamada real (2026-11-23)
 
-1. Abrir o workspace na pasta **`repo/`** (clone BiblioAPI).  
-2. Cursor Settings → MCP → habilitar `biblio-filesystem` (aprovar na 1ª conexão).  
-3. No chat agente, pedir por exemplo: *liste arquivos em docs/evidencias/*.  
-4. Confirmar que tools do filesystem respondem só dentro de `docs/` / `evals/`.  
-5. Tentar path fora (ex. `.env`) → deve ser recusado pelo servidor.
+`scripts/registrar_chamada_mcp_filesystem.py` falou com `@modelcontextprotocol/server-filesystem` 2.4.0 (protocolo `2025-03-26`) e gravou `docs/evidencias/mcp-filesystem-chamada.json`.
+
+- `list_allowed_directories` devolveu só `docs/` e `evals/`.
+- `list_directory` em `docs/evidencias` listou os arquivos da pasta.
+- `list_directory` em `app/` voltou `isError: true` e `Access denied - path outside allowed directories`.
+
+O `npx` no Windows não repassa o stdin, e o registry do npm neste host exige o certificado Norton (`NODE_EXTRA_CA_CERTS`). O script chama o `node` no `dist/index.js` já baixado. O CI não executa essa chamada: `tests/test_mcp_externo.py` confere o transcript versionado.
+
+## Como comprovar no Cursor
+
+1. Abrir a janela na pasta **`repo/`**.  
+2. Customize → MCPs → ligar `biblio-filesystem` (aprovar na 1ª conexão).  
+3. Pedir a listagem de `docs/evidencias`. O servidor só responde dentro de `docs/` e `evals/`.
 
 > **Norton / TLS:** `npx` no host pode falhar com SSL Inspection (mesmo padrão do `pip mcp`). Mitigações: cert Norton no ambiente Node, ou validar via MCP Inspector em máquina sem inspeção. A **config versionada + testes de artefato** cobrem o RM4 no Git; a aprovação no Cursor é o passo humano.
 
@@ -48,4 +56,5 @@ Também versionado no mesmo arquivo: `biblioapi-service` (`python -m mcp_server`
 
 - [x] Config versionada sem segredos  
 - [x] Evidência documentada (este arquivo) + teste  
-- [ ] PR com merge commit (após autorização Magno)  
+- [x] PR #15 mergeado (`17b5e65`)  
+- [x] Chamada real gravada em `mcp-filesystem-chamada.json`  

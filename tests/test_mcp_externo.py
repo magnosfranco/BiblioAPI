@@ -52,3 +52,16 @@ def test_mcp_proprio_ainda_no_mesmo_arquivo() -> None:
     own = data["mcpServers"]["biblioapi-service"]
     assert own["command"] == "python"
     assert "-m" in own["args"] and "mcp_server" in own["args"]
+
+
+def test_chamada_real_fica_em_docs_e_evals() -> None:
+    bruto = (REPO / "docs" / "evidencias" / "mcp-filesystem-chamada.json").read_text(encoding="utf-8")
+    dados = json.loads(bruto)
+    permitido = dados["list_allowed_directories"]["result"]["content"][0]["text"]
+    assert "docs" in permitido and "evals" in permitido
+    listado = dados["list_directory_docs_evidencias"]["result"]["content"][0]["text"]
+    assert "mcp-filesystem.md" in listado
+    fora = dados["list_directory_app_fora_do_root"]["result"]
+    assert fora["isError"] is True
+    assert "Access denied" in fora["content"][0]["text"]
+    assert "sk-" not in bruto and "ghp_" not in bruto
