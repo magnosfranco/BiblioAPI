@@ -9,6 +9,7 @@
 | `005-pendencias-desta-fase.md` | Provas desta fase | Spec + Plano | PRs #13, #15, #17 e #19 na main |
 | `006-threat-model-injection.md` | Threat model e injection | Spec + Plano | Aula 4, issue #23 |
 | `007-fechamento-sem-tag.md` | CI v3, relatório e slides | Spec + Plano | Issue #25, sem a tag |
+| `008-a2a-e-rm8.md` | Handoff e tabela do RM8 | Spec + Plano | Issue #27, sem SPEC nova |
 
 ## Decisão de ordem (Magno da Silva Franco · 2026-11-22)
 

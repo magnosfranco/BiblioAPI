@@ -29,3 +29,7 @@ Produzir e evoluir artefatos de documentação ADLC com rastreabilidade (requisi
 ## Formato
 
 Use Markdown claro, tabelas quando ajudarem a verificação objetiva, e referências explícitas a RNs/RMs.
+
+## Handoff
+
+Pacote de documentação (plano, relatório, slides) segue `docs/a2a-handoff.md`. Preencha só a tabela do arquiteto. Não escreva o veredito do `spec-reviewer` e não altere `SPEC.md` para registrar bônus.

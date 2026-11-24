@@ -24,3 +24,7 @@ Revisar diffs/PRs de forma independente do agente que implementou. Não reescrev
 - Separe **bloqueantes** de **sugestões**.
 - Se não houver achados bloqueantes, diga explicitamente: `LGTM condicional` ou `LGTM`.
 - Riscos fora de escopo → recomendar issue, não expandir o PR.
+
+## Handoff
+
+Se o PR tiver pacote em `docs/a2a-handoff.md`, confira se a tabela do arquiteto cita issue, plano e arquivo. O veredito continua neste formato (bloqueantes, sugestões, LGTM). Não reescreva o pacote.

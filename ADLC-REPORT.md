@@ -74,7 +74,7 @@ A linha de base é `llama3.1:8b`, timeout 15 s, `format=json`, temperatura 0. O 
 - A tag `entrega-final` espera a data da Aula 5.
 - O RM8 continua em evolução: cada PR novo tem comentário e resposta.
 - Com id válido, `motivo` ainda repete texto do modelo, cortado em 200 caracteres. Não executa ação. Está em `docs/threat-model.md`.
-- Bônus P1 e P2 ficam para antes da tag, num PR próprio.
+- O bônus P1 tem contrato em `docs/a2a-handoff.md`. O P2 espera uma sessão real numa segunda ferramenta. P3 e P4 não começaram.
 
 ## Lições
 
